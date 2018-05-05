@@ -1,0 +1,109 @@
+
+1. Client to see login page first.  On login page, there should be places to enter User Name and Password.  There should be button to submit entry.
+2. On clicking on the submit button, request to go to client side.  At client side authentication to happen.  If user name and password are correct, 
+	client should see Welcome page other wise it has to go back to login page.
+	
+	a. Design Login.jsp
+	b. A control has to go to authenticate.jsp on which authentication check should be done.
+	
+	URL: http://localhost:8181/ServJSP020/Login.jsp
+	Step 1. On issuing this url, browser creates a request in the name of Login.jsp.  This request goes to server side where Login.jsp fabricates a web page
+				dynamically and now web page comes back to browser.
+				
+	Step 2.  You enter user name and password and click on the submit button.
+				New request in the name of authenticate.jsp is created with query string/form data.  Data sent for GET request is Query String. Data sent for
+					POST request is called form data.
+					
+				When control reaches to authenticate.jsp this data can be collected by calling getParameter() on request object.
+				As per the given values, authenticate.jsp will make a decision and dynamically will generate new web page which comes back to client.
+				
+	
+	HTML Vs. JSP
+	1. HTML is a static web page.  JSP designs a web page dynamically on receipt of request in real time.
+	2. JSP can have java code.  This java code is added as it is when jsp is translated into .java file.
+	3.  Basic purpose of JSP is to provide server side dynamism to the web page designing.
+	
+	Servlet Vs. JSP
+	1. Servlet: HTML tags embedded in Java.  Servlet for Java developers
+	2. JSP: Java code embedded in HTML tags.  It is a servlet for web developers.
+	3. Everything, every trick you can do in Servlet is possible in JSP and Vice versa.
+	4. Model 1: Page centric architecture where whole website is designed using JSP.
+	5. Model 2: MVC(Model-View-Controller) architecture. Helps in separating Java code from HTML code. Java code goes in servlet and HTML code goes in JSP.
+					The java code does controlling so servlet works as a controller now and JSP works as a view (Presentation)
+					All JSP's will be managed by web developers and all servlets will be managed by java developers.
+					
+	Execution flow for ServJSP030
+	1. URL http://localhost:8181/ServJSP030/Login.jsp
+		It will do a trip to the server to bring Login.jsp from there.
+	2. Enter user name and password and click on the submit button.  Now request is generated in the name of /Authenticate servlet.
+	3. Request reaches to Autheticate Servlet where authentication is done.  If it is correct, dispatching happens for Welcome.jsp
+			otherwise dispatching happens for Login.jsp.
+			
+	Points understood...
+		Segregation of code.
+		Dispatching.
+		GET request 
+			* carries data(Query String) in address bar.  
+			* Information gets exposed in the address bar.  
+			* Not suitable for confidential information.
+			* Limitation of size.  Not for huge data.
+			* There must be doGet() in Servlet.
+		Post request
+			* carries data through separate connection.
+			* Data is not exposed in the address bar.
+			* No uppper limit for size of the data.
+			* There must be doPost() in Servlet.
+			
+	Scopes in web application...
+	1. Private, default, protected, public
+	2. request, session, application(ServletContext).
+	
+	Request Scope:
+		Request object carries Query string data/ Form data.
+				To read this data use getParameter().
+		
+		Request Scope can hold data.
+				setAttribute()/getAttribute().
+				
+		Request scope lives for a trip from client to the server.
+		1. When url for Login.jsp is created and sent to the server, client receives response. Now Request and Response objects are remove.
+		
+		2. In case submission of user name and password,
+			a. Request response objects are created and given to doPost() of Application.java servlet.
+			b. Same request and response objects are forwared to Welcome.jsp.  When response welcome.jsp is sent back to client, 
+				now Request and Response objects are removed.
+				
+	Dispatching types:
+		Forward dispatching: Forms a chain of Servlets.  Transfers Request and Response object as it is.
+			Response object is overwritten at last by view layer.
+			In the Servlet Chain, design last web component as a presenter.  The Presenter(JSP) will overwrite whole response.
+			If intermediate components are updating Response, it is not noticed and overwritten by last presenting web component.
+			The forward dispatching does not expect the control to come back within web component.
+			
+		Include dispatching: Different presenters to combine present ONE page.  It neither overwrites Request nor Response.
+			Control comes back to the web component.
+		
+		
+	getParameter(): Reading queryString/Form data.
+	setParameter(): No such method exists.
+	
+	getAttribute(): Reading data from request scope.
+	setAttribute(): Setting data into request scope.
+	
+	Servlet-JSP
+		Different Scopes- Application, Session
+		Different Parameters- Context and Config parameters.
+		Session  Tracking
+		DBMS in Servlet-JSP
+		Implicit Objects of JSP
+		JSTL
+		Filters and Listeners
+		
+	Implementation of Web Concepts.
+		Core Layer- Core Java
+		How to architect an application
+		How to design layered application
+		How to segregate different responsibilities in an application.
+		
+	
+			
